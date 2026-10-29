@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#f97316"/>
+  <!-- Boxy full-size pickup in profile: bed, regular cab, long flat hood -->
+  <path fill="#111723" d="M4 29.5H27V20Q27 18 29 18H37.5L43 29.5H57.5Q59 29.5 59 31V41.5Q59 43 57.5 43H55A7 7 0 0 0 41 43H22A7 7 0 0 0 8 43H5.5Q4 43 4 41.5Z"/>
+  <path fill="#fb923c" d="M29.5 20.5H36.6L40.6 28H29.5Z"/>
+  <rect x="57.5" y="38" width="3" height="5" rx="1" fill="#111723"/>
+  <rect x="2.5" y="38.5" width="2.5" height="4.5" rx="1" fill="#111723"/>
+  <rect x="56.6" y="31.5" width="1.6" height="2.6" rx="0.5" fill="#fb923c"/>
+  <circle cx="15" cy="44" r="5.8" fill="#111723"/>
+  <circle cx="48" cy="44" r="5.8" fill="#111723"/>
+  <circle cx="15" cy="44" r="2.2" fill="#fb923c"/>
+  <circle cx="48" cy="44" r="2.2" fill="#fb923c"/>
+</svg>

@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .card { @apply rounded-xl border border-surface-700 bg-surface-900; }
+  .btn { @apply inline-flex items-center justify-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-50; }
+  .btn-primary { @apply btn bg-accent-500 text-white hover:bg-accent-600; }
+  .btn-ghost { @apply btn border border-surface-600 bg-surface-800 text-slate-200 hover:bg-surface-700; }
+  .btn-danger { @apply btn bg-red-600/90 text-white hover:bg-red-600; }
+  .btn-success { @apply btn bg-emerald-600 text-white hover:bg-emerald-500; }
+  .input { @apply w-full rounded-lg border border-surface-600 bg-surface-950 px-3 py-2 text-sm text-slate-100 placeholder-slate-500 outline-none focus:border-accent-500 focus:ring-1 focus:ring-accent-500; }
+  .label { @apply mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-400; }
+  .help { @apply mt-1 text-xs text-slate-500; }
+  .table { @apply w-full text-left text-sm; }
+  .table th { @apply border-b border-surface-700 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-slate-400; }
+  .table td { @apply border-b border-surface-800 px-3 py-2 align-middle; }
+  .chip { @apply inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium; }
+}
+
+.xterm-viewport::-webkit-scrollbar { width: 8px; }
+.xterm-viewport::-webkit-scrollbar-thumb { background: #2e3a54; border-radius: 4px; }

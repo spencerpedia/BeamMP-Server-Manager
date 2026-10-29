@@ -1,0 +1,22 @@
+services:
+  beammp-manager:
+    build: .
+    image: beammp-server-manager:latest
+    container_name: beammp-server-manager
+    restart: unless-stopped
+    environment:
+      - TZ=UTC                    # set to your timezone; schedules use it
+      - PUID=99
+      - PGID=100
+      - GAME_PORT_RANGE=30814-30823
+    ports:
+      - "8000:8000"               # web panel
+      - "30814-30823:30814-30823/tcp"
+      - "30814-30823:30814-30823/udp"
+    volumes:
+      - ./data:/data
+      - ./backups:/backups
+      # Optional: existing BeamMP servers to import (read-only)
+      # - /mnt/user/appdata:/import:ro
+    # Many published ports add docker-proxy overhead; host networking avoids it:
+    # network_mode: host

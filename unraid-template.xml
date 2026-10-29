@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>BeamMP-Server-Manager</Name>
+  <Repository>beammp-server-manager:latest</Repository>
+  <Registry>https://github.com/spencerpedia/BeamMP-Server-Manager</Registry>
+  <Project>https://github.com/spencerpedia/BeamMP-Server-Manager</Project>
+  <Network>bridge</Network>
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+  <Overview>Crafty-style web panel for running multiple BeamMP servers: live console, config editor, mods/maps/plugins, players, kicks/bans, metrics, schedules, backups and multi-user access.</Overview>
+  <Category>GameServers:</Category>
+  <WebUI>http://[IP]:[PORT:8000]/</WebUI>
+  <Icon>https://raw.githubusercontent.com/spencerpedia/BeamMP-Server-Manager/main/frontend/public/icon.png</Icon>
+  <Config Name="Web UI" Target="8000" Default="8000" Mode="tcp" Description="Panel port" Type="Port" Display="always" Required="true" Mask="false">8000</Config>
+  <Config Name="Game ports (TCP)" Target="30814-30823" Default="30814-30823" Mode="tcp" Description="One port per BeamMP server. Must match GAME_PORT_RANGE." Type="Port" Display="always" Required="true" Mask="false">30814-30823</Config>
+  <Config Name="Game ports (UDP)" Target="30814-30823" Default="30814-30823" Mode="udp" Description="Same range as TCP." Type="Port" Display="always" Required="true" Mask="false">30814-30823</Config>
+  <Config Name="Data" Target="/data" Default="/mnt/user/appdata/beammp-manager" Mode="rw" Description="Database, BeamMP binaries and server folders" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/beammp-manager</Config>
+  <Config Name="Backups" Target="/backups" Default="/mnt/user/appdata/beammp-manager/backups" Mode="rw" Description="Backup archives" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/beammp-manager/backups</Config>
+  <Config Name="Import (read-only)" Target="/import" Default="/mnt/user/appdata" Mode="ro" Description="Optional. Folder containing existing BeamMP servers to import (e.g. your old beamng-mp appdata). Only read, never changed." Type="Path" Display="always" Required="false" Mask="false">/mnt/user/appdata</Config>
+  <Config Name="GITHUB_TOKEN" Target="GITHUB_TOKEN" Default="" Mode="" Description="Optional GitHub token for the plugin browser (raises the search rate limit)" Type="Variable" Display="advanced" Required="false" Mask="true"/>
+  <Config Name="GAME_PORT_RANGE" Target="GAME_PORT_RANGE" Default="30814-30823" Mode="" Description="Ports the panel may assign to servers" Type="Variable" Display="always" Required="true" Mask="false">30814-30823</Config>
+  <Config Name="TZ" Target="TZ" Default="UTC" Mode="" Description="Timezone for schedules" Type="Variable" Display="always" Required="false" Mask="false">UTC</Config>
+  <Config Name="PUID" Target="PUID" Default="99" Mode="" Description="" Type="Variable" Display="advanced" Required="false" Mask="false">99</Config>
+  <Config Name="PGID" Target="PGID" Default="100" Mode="" Description="" Type="Variable" Display="advanced" Required="false" Mask="false">100</Config>
+</Container>
