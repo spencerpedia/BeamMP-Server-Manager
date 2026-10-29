@@ -1,7 +1,6 @@
 services:
   beammp-manager:
-    build: .
-    image: beammp-server-manager:latest
+    image: ghcr.io/spencerpedia/beammp-server-manager:latest
     container_name: beammp-server-manager
     restart: unless-stopped
     environment:

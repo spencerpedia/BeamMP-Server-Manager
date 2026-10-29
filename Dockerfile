@@ -1,5 +1,6 @@
 # ---- frontend build ----
-FROM node:22-bookworm-slim AS ui
+# Built on the native platform: the output is plain static files, so no emulation is needed.
+FROM --platform=$BUILDPLATFORM node:22-bookworm-slim AS ui
 WORKDIR /ui
 COPY frontend/package.json frontend/package-lock.json ./
 RUN npm ci --no-audit --no-fund
@@ -9,6 +10,10 @@ RUN npm run build
 # ---- runtime ----
 # Debian 12 base matches the BeamMP-Server.debian.12 release binaries.
 FROM python:3.12-slim-bookworm
+
+LABEL org.opencontainers.image.source="https://github.com/spencerpedia/BeamMP-Server-Manager" \
+      org.opencontainers.image.description="Crafty-style web panel for running multiple BeamMP servers" \
+      org.opencontainers.image.licenses="MIT"
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \

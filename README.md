@@ -25,8 +25,11 @@ A self-hosted, Crafty-style web panel for [BeamMP](https://beammp.com) servers. 
 ## Quick start
 
 ```sh
-docker compose up -d --build
+docker compose up -d
 ```
+
+The image is published as `ghcr.io/spencerpedia/beammp-server-manager` for amd64 and arm64. Use `:latest`, or a
+version tag such as `:1.0.0` once releases are tagged. To build it yourself instead, run `docker build -t beammp-server-manager .`.
 
 Open `http://<host>:8000` and create the admin account. Then create a server and paste an Auth Key from
 [keymaster.beammp.com](https://keymaster.beammp.com) → Keys.
@@ -38,8 +41,14 @@ If you want a different range, change `GAME_PORT_RANGE` and the published ports 
 
 ### Unraid
 
-Build the image on the server (`docker build -t beammp-server-manager:latest .`). Then copy `unraid-template.xml` to
-`/boot/config/plugins/dockerMan/templates-user/my-BeamMP-Server-Manager.xml` and add the container from the Docker tab.
+Download the template onto the server, then add the container from **Docker → Add Container** and choose **BeamMP-Server-Manager**:
+
+```sh
+wget -O /boot/config/plugins/dockerMan/templates-user/my-BeamMP-Server-Manager.xml \
+  https://raw.githubusercontent.com/spencerpedia/BeamMP-Server-Manager/main/unraid-template.xml
+```
+
+Updates appear in the Docker tab like any other container ("apply update").
 
 ### Environment variables
 

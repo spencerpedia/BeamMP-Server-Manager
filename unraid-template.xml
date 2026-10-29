@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <Container version="2">
   <Name>BeamMP-Server-Manager</Name>
-  <Repository>beammp-server-manager:latest</Repository>
-  <Registry>https://github.com/spencerpedia/BeamMP-Server-Manager</Registry>
+  <Repository>ghcr.io/spencerpedia/beammp-server-manager:latest</Repository>
+  <Registry>https://github.com/spencerpedia/BeamMP-Server-Manager/pkgs/container/beammp-server-manager</Registry>
   <Project>https://github.com/spencerpedia/BeamMP-Server-Manager</Project>
   <Network>bridge</Network>
   <Shell>sh</Shell>
