@@ -3,7 +3,7 @@ import { computed, inject, onMounted, ref } from 'vue'
 import { api, upload } from '../../api'
 import { toast, toastError } from '../../store'
 import { refreshServers } from '../../servers'
-import { bytes } from '../../format'
+import { bytes, plural } from '../../format'
 import { confirmDialog } from '../../components/confirm'
 import Icon from '../../components/Icon.vue'
 import Toggle from '../../components/Toggle.vue'
@@ -112,7 +112,7 @@ async function useMap(level) {
     <div class="card">
       <div class="flex flex-wrap items-center gap-3 border-b border-surface-700 px-5 py-3">
         <h2 class="font-semibold">Client mods</h2>
-        <span class="text-xs text-slate-500">{{ mods.length }} files · {{ bytes(totalSize) }} sent to players</span>
+        <span class="text-xs text-slate-500">{{ plural(mods.length, 'file') }} · {{ bytes(totalSize) }} sent to players</span>
         <span class="flex-1" />
         <input v-model="filter" class="input max-w-xs py-1.5" placeholder="Filter…" />
         <button class="btn-ghost" :disabled="checking" @click="checkUpdates"><Icon name="refresh" :size="14" />{{ checking ? 'Checking…' : 'Check updates' }}</button>

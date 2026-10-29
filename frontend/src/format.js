@@ -24,6 +24,8 @@ export function timeAgo(v) {
   if (!v) return 'never'
   const d = typeof v === 'number' ? new Date(v * 1000) : new Date(v)
   const s = Math.round((Date.now() - d.getTime()) / 1000)
+  if (s < -86400) return `in ${Math.round(-s / 86400)} d`
+  if (s < -5400) return `in ${Math.round(-s / 3600)} h`
   if (s < -60) return `in ${Math.round(-s / 60)} min`
   if (s < 60) return 'just now'
   if (s < 3600) return `${Math.floor(s / 60)} min ago`
@@ -33,3 +35,5 @@ export function timeAgo(v) {
 
 // Strip BeamMP ^-colour codes for plain display.
 export const plainName = (s) => (s || '').replace(/\^[0-9a-fk-or]/gi, '')
+
+export const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`

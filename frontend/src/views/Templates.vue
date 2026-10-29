@@ -3,7 +3,7 @@ import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { api, upload } from '../api'
 import { toast, toastError } from '../store'
-import { bytes, dateTime } from '../format'
+import { bytes, dateTime, plural } from '../format'
 import { refreshServers } from '../servers'
 import { confirmDialog } from '../components/confirm'
 import Icon from '../components/Icon.vue'
@@ -90,8 +90,8 @@ function created(s) {
         </div>
         <p class="mt-1 flex-1 text-sm text-slate-400">{{ t.description || (t.source ? `From ${t.source}` : '') }}</p>
         <div class="mt-3 grid grid-cols-3 gap-2 text-center text-xs">
-          <div class="rounded-lg bg-surface-800 py-2"><div class="font-semibold text-slate-200">{{ t.mods }}</div>mods</div>
-          <div class="rounded-lg bg-surface-800 py-2"><div class="font-semibold text-slate-200">{{ t.plugins }}</div>plugins</div>
+          <div class="rounded-lg bg-surface-800 py-2"><div class="font-semibold text-slate-200">{{ t.mods }}</div>{{ plural(t.mods, 'mod').split(' ')[1] }}</div>
+          <div class="rounded-lg bg-surface-800 py-2"><div class="font-semibold text-slate-200">{{ t.plugins }}</div>{{ plural(t.plugins, 'plugin').split(' ')[1] }}</div>
           <div class="rounded-lg bg-surface-800 py-2"><div class="font-semibold text-slate-200">{{ bytes(t.size) }}</div>size</div>
         </div>
         <p class="mt-3 text-xs text-slate-500">{{ (t.map || '').split('/')[2] || '—' }} · {{ t.max_players }} players · {{ dateTime(t.created) }}</p>

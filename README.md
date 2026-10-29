@@ -2,6 +2,16 @@
 
 A self-hosted, Crafty-style web panel for [BeamMP](https://beammp.com) servers. Run any number of BeamMP servers in one Docker container and manage them from your browser.
 
+![Dashboard](docs/screenshots/dashboard.png)
+
+| Live console | Config editor |
+|---|---|
+| ![Console](docs/screenshots/console.png) | ![Config](docs/screenshots/config.png) |
+| **Mods & maps** | **Metrics** |
+| ![Mods](docs/screenshots/mods.png) | ![Metrics](docs/screenshots/metrics.png) |
+| **Scheduled tasks** | **Templates** |
+| ![Schedules](docs/screenshots/schedules.png) | ![Templates](docs/screenshots/templates.png) |
+
 ## Features
 
 - **Multiple servers.** Create, start, stop, restart and force-kill them. Each one has its own port, config, mods and plugins.
@@ -28,8 +38,8 @@ A self-hosted, Crafty-style web panel for [BeamMP](https://beammp.com) servers. 
 docker compose up -d
 ```
 
-The image is published as `ghcr.io/spencerpedia/beammp-server-manager` for amd64 and arm64. Use `:latest`, or a
-version tag such as `:1.0.0` once releases are tagged. To build it yourself instead, run `docker build -t beammp-server-manager .`.
+The image is published as `ghcr.io/spencerpedia/beammp-server-manager` for amd64 and arm64. Use `:latest`, or pin a
+release such as `:1.0.0`. To build it yourself instead, run `docker build -t beammp-server-manager .`.
 
 Open `http://<host>:8000` and create the admin account. Then create a server and paste an Auth Key from
 [keymaster.beammp.com](https://keymaster.beammp.com) → Keys.
