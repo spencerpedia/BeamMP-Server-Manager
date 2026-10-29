@@ -12,7 +12,7 @@ RUN npm run build
 FROM python:3.12-slim-bookworm
 
 LABEL org.opencontainers.image.source="https://github.com/spencerpedia/BeamMP-Server-Manager" \
-      org.opencontainers.image.description="Crafty-style web panel for running multiple BeamMP servers" \
+      org.opencontainers.image.description="Self-hosted web panel for running multiple BeamMP servers" \
       org.opencontainers.image.licenses="MIT"
 
 ENV PYTHONDONTWRITEBYTECODE=1 \

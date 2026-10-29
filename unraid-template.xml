@@ -7,7 +7,7 @@
   <Network>bridge</Network>
   <Shell>sh</Shell>
   <Privileged>false</Privileged>
-  <Overview>Crafty-style web panel for running multiple BeamMP servers: live console, config editor, mods/maps/plugins, players, kicks/bans, metrics, schedules, backups and multi-user access.</Overview>
+  <Overview>Self-hosted web panel for running multiple BeamMP servers: live console, config editor, mods/maps/plugins, players, kicks/bans, metrics, schedules, backups and multi-user access.</Overview>
   <Category>GameServers:</Category>
   <WebUI>http://[IP]:[PORT:8000]/</WebUI>
   <Icon>https://raw.githubusercontent.com/spencerpedia/BeamMP-Server-Manager/main/frontend/public/icon.png</Icon>

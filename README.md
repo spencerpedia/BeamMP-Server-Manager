@@ -84,7 +84,7 @@ Updates appear in the Docker tab like any other container ("apply update").
 - The panel is a FastAPI app. Each BeamMP-Server runs as a child process, and the panel sends console commands through stdin and reads output from stdout.
 - A small bridge Lua plugin (`Resources/Server/_BMSM`) is installed into every server. It reports joins, leaves, chat and player lists as `[BMSM]{json}` lines, and it enforces the panel's ban list (`.bmsm/bans.json`) in `onPlayerAuth`. These lines are kept out of the console view.
 - Stopping a server sends `exit`, waits for a clean shutdown, and only then falls back to SIGTERM and SIGKILL.
-- Child processes stop when the container stops, just like with Crafty. Turn on **Start with the panel** for servers that should come back up automatically.
+- Child processes stop when the container stops. Turn on **Start with the panel** for servers that should come back up automatically.
 
 ## Development
 
