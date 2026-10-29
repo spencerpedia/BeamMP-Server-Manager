@@ -1,6 +1,6 @@
 # BeamMP Server Manager
 
-A self-hosted, Crafty-style web panel for [BeamMP](https://beammp.com) servers. Run any number of BeamMP servers in one Docker container and manage them from your browser.
+A self-hosted web panel for [BeamMP](https://beammp.com) servers. Run any number of BeamMP servers in one Docker container and manage them from your browser.
 
 ![Dashboard](docs/screenshots/dashboard.png)
 
