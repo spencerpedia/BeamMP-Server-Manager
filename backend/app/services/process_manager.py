@@ -90,7 +90,7 @@ class ServerProcess:
             "version_running": self.version,
             "uptime": int(time.time() - self.started_at) if self.started_at and self.running else 0,
             "players": self.players,
-            "stats": self.stats[-1] if self.stats else None,
+            "stats": self.stats[-1] if self.stats and self.running else None,
         }
 
     async def start(self, spec: LaunchSpec) -> None:

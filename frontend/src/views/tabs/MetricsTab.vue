@@ -6,7 +6,8 @@ import LineChart from '../../components/LineChart.vue'
 const server = inject('server')
 const live = inject('live')
 const labels = computed(() => live.stats.map((p) => new Date(p.ts * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })))
-const latest = computed(() => live.stats[live.stats.length - 1])
+// Live readings only while running; the charts keep showing the last 30 minutes of history.
+const latest = computed(() => (server.value.state === 'running' ? live.stats[live.stats.length - 1] : null))
 const peak = (key) => Math.max(0, ...live.stats.map((p) => p[key]))
 </script>
 
