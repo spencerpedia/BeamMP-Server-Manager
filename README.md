@@ -22,6 +22,7 @@ A self-hosted web panel for [BeamMP](https://beammp.com) servers. Run any number
 - **Players.** Live player list, kick, ban (by name, BeamMP ID or IP), chat log, and messaging all players as Server.
 - **Metrics.** CPU, RAM and player-count graphs covering the last 30 minutes.
 - **Schedules.** Cron jobs for restart, start, stop, backup, console commands, or update-and-restart, with an optional in-game countdown.
+- **Discord notifications (optional).** Paste a channel webhook into a server's Settings tab to post when the server starts, stops or crashes, when players join or leave, and when scheduled tasks and backups finish. Each type can be turned off.
 - **Backups.** One-click tar.gz backups with retention, download, and restore.
 - **BeamMP versions.** Binaries are downloaded automatically from GitHub releases. Each server can follow "latest" or be pinned to a version.
 - **Users.** Admin, operator and viewer roles with per-server access, plus an audit log.

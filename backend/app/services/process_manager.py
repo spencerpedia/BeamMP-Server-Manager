@@ -103,6 +103,7 @@ class ServerProcess:
                 await self._spawn(spec)
             except Exception as exc:
                 self.system_log(f"Failed to start: {exc}")
+                self.publish({"type": "notify", "event": "start_failed", "error": str(exc)})
                 self._set_state("stopped")
                 raise
 
@@ -171,6 +172,7 @@ class ServerProcess:
             self._crashes.popleft()
         if len(self._crashes) >= CRASH_LIMIT:
             self.system_log(f"Crashed {CRASH_LIMIT} times in {CRASH_WINDOW // 60} minutes; not restarting automatically")
+            self.publish({"type": "notify", "event": "crash_limit"})
             return
         self._crashes.append(now)
         self.system_log("Auto-restarting in 5 seconds…")
@@ -191,10 +193,12 @@ class ServerProcess:
             self.players = [p for p in self.players if p.get("id") != event.get("id")] + [event]
             self.system_log(f"{event.get('name')} joined")
             self.publish({"type": "players", "players": self.players})
+            self.publish({"type": "notify", "event": "join", "name": event.get("name", ""), "count": len(self.players)})
         elif kind == "leave":
             self.players = [p for p in self.players if p.get("id") != event.get("id")]
             self.system_log(f"{event.get('name')} left")
             self.publish({"type": "players", "players": self.players})
+            self.publish({"type": "notify", "event": "leave", "name": event.get("name", ""), "count": len(self.players)})
         elif kind == "chat":
             msg = {"ts": time.time(), "name": event.get("name", ""), "message": event.get("message", "")}
             self.chat.append(msg)

@@ -57,13 +57,16 @@ async def run_schedule(schedule_id: int) -> str:
         if sched is None:
             return "missing"
         server_id, action, payload, warn = sched.server_id, sched.action, sched.payload, sched.warn_minutes
+        name = sched.name
     sp = manager.get(server_id)
+    ok = True
     try:
         result = await _perform(server_id, action, payload, warn)
     except Exception as exc:  # noqa: BLE001  (recorded on the schedule)
         log.exception("Schedule %s failed", schedule_id)
-        result = f"error: {exc}"
+        result, ok = f"error: {exc}", False
     sp.system_log(f"Scheduled {action}: {result}")
+    sp.publish({"type": "notify", "event": "schedule", "action": action, "name": name, "result": result, "ok": ok})
     with SessionLocal() as db:
         sched = db.get(Schedule, schedule_id)
         if sched:

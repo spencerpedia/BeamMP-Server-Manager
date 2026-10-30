@@ -45,6 +45,7 @@ async def create_backup(
         result = await control.backup(server.id, body.label)
     finally:
         _busy.discard(server.id)
+    manager.get(server.id).publish({"type": "notify", "event": "backup", "name": result["name"], "user": user.username})
     audit(db, user, "backup_create", result["name"], server.id)
     return result
 
@@ -73,6 +74,7 @@ async def restore_backup(
     finally:
         _busy.discard(server.id)
     manager.get(server.id).system_log(f"Restored backup {name}")
+    manager.get(server.id).publish({"type": "notify", "event": "restore", "name": name, "user": user.username})
     audit(db, user, "backup_restore", name, server.id)
     return {"ok": True}
 

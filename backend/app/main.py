@@ -8,13 +8,15 @@ from fastapi.staticfiles import StaticFiles
 from sqlalchemy import select
 
 from . import config
-from .api import admin, auth_routes, backups, content, extras, players, schedules, servers, ws
+from .api import admin, auth_routes, backups, content, discord, extras, players, schedules, servers, ws
 from .db import SessionLocal, init_db
 from .models import Server
 from .services import control, scheduler
+from .services.discord import notifier
 from .services.process_manager import manager
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
+logging.getLogger("httpx").setLevel(logging.WARNING)  # its request lines would log Discord webhook tokens
 log = logging.getLogger("bmsm")
 
 
@@ -34,17 +36,19 @@ async def lifespan(_: FastAPI):
     init_db()
     manager.spec_loader = control.launch_spec
     manager.start_stats_loop()
+    notifier.start()
     scheduler.scheduler.start()
     scheduler.load_all()
     autostart = asyncio.create_task(_autostart())
     yield
     autostart.cancel()
     scheduler.scheduler.shutdown(wait=False)
+    await notifier.stop()
     await manager.shutdown()
 
 
 app = FastAPI(title="BeamMP Server Manager", lifespan=lifespan)
-for r in (auth_routes, servers, content, players, backups, schedules, admin, extras, ws):
+for r in (auth_routes, servers, content, players, backups, schedules, discord, admin, extras, ws):
     app.include_router(r.router)
 
 

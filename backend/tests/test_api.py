@@ -94,3 +94,76 @@ def test_viewer_permissions(client):
     assert v.post(f"/api/servers/{sid}/start").status_code == 403
     assert v.get(f"/api/servers/{sid}/config").status_code == 200
     assert v.get("/api/users").status_code == 403
+
+
+def test_discord_settings(client, monkeypatch):
+    sid = client.post("/api/servers", json={"name": "Echo"}).json()["id"]
+    base = f"/api/servers/{sid}/discord"
+    assert client.get(base).json() == {"webhook_url": "", "enabled": False, "events": ["status", "players", "tasks"]}
+    assert client.put(base, json={"webhook_url": "https://example.com/hook", "enabled": True}).status_code == 422
+    assert client.put(base, json={"webhook_url": "", "enabled": True}).status_code == 422
+    url = "https://discord.com/api/webhooks/1/tok"
+    assert client.put(base, json={"webhook_url": url, "enabled": True, "events": ["bogus"]}).status_code == 422
+    r = client.put(base, json={"webhook_url": url, "enabled": True, "events": ["tasks", "status"]})
+    assert r.status_code == 200, r.text
+    assert client.get(base).json() == {"webhook_url": url, "enabled": True, "events": ["status", "tasks"]}
+
+    from app.services import discord
+
+    sent = []
+
+    async def fake_send_test(u, name):
+        sent.append((u, name))
+        return None
+
+    monkeypatch.setattr(discord, "send_test", fake_send_test)
+    assert client.post(f"{base}/test", json={}).status_code == 200
+    assert sent == [(url, "Echo")]
+
+    async def failing(u, name):
+        return "Discord returned HTTP 404"
+
+    monkeypatch.setattr(discord, "send_test", failing)
+    assert client.post(f"{base}/test", json={}).status_code == 502
+
+    from app.db import SessionLocal
+    from app.models import ServerNotification
+
+    assert client.delete(f"/api/servers/{sid}").status_code == 200
+    with SessionLocal() as db:
+        assert db.get(ServerNotification, sid) is None
+
+
+def test_discord_notifier_posts_enabled_events(client, monkeypatch):
+    import asyncio
+
+    from app.services import discord
+    from app.services.process_manager import manager
+
+    sid = client.post("/api/servers", json={"name": "Foxtrot"}).json()["id"]
+    url = "https://discord.com/api/webhooks/2/tok"
+    client.put(f"/api/servers/{sid}/discord", json={"webhook_url": url, "enabled": True, "events": ["status"]})
+
+    posts = []
+
+    async def fake_post(_client, u, embeds):
+        posts.append((u, [e["description"] for e in embeds]))
+
+    monkeypatch.setattr(discord, "post", fake_post)
+    monkeypatch.setattr(discord, "BATCH_DELAY", 0.05)
+
+    async def scenario():
+        n = discord.Notifier()
+        n.start()
+        await asyncio.sleep(0)
+        sp = manager.get(sid)
+        sp.publish({"type": "notify", "event": "join", "name": "Ann", "count": 1})  # players group is off
+        sp.publish({"type": "state", "state": "running", "version": "v1"})
+        sp.publish({"type": "state", "state": "stopping", "version": "v1"})
+        sp.publish({"type": "state", "state": "stopped", "version": "v1"})
+        await asyncio.sleep(0.3)
+        await n.stop()
+
+    asyncio.run(scenario())
+    assert posts == [(url, ["**Server started** (v1)", "**Server stopped**"])]
+    client.delete(f"/api/servers/{sid}")

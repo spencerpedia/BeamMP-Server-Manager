@@ -101,3 +101,14 @@ class Setting(Base):
 
     key: Mapped[str] = mapped_column(String(64), primary_key=True)
     value: Mapped[str] = mapped_column(Text, default="")
+
+
+class ServerNotification(Base):
+    """Discord webhook settings for one server. No row means notifications are off."""
+
+    __tablename__ = "server_notifications"
+
+    server_id: Mapped[int] = mapped_column(ForeignKey("servers.id", ondelete="CASCADE"), primary_key=True)
+    webhook_url: Mapped[str] = mapped_column(String(512), default="")
+    enabled: Mapped[bool] = mapped_column(Boolean, default=False)
+    events: Mapped[str] = mapped_column(String(64), default="status,players,tasks")  # comma-separated
